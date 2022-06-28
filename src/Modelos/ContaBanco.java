@@ -14,13 +14,8 @@ public class ContaBanco {
     private String titular;
     private double saldo;
     private double chequeEspecial;
+    private String chavePIX;
    
-    
-    //Criar os gettres e setters 
-    //Criar um método chamado chaque
-    //Criar um método chamado deposito
-    //Criar um método toString()
-    
     public ContaBanco(){
         
     }
@@ -28,12 +23,13 @@ public class ContaBanco {
     
 
   
-    public ContaBanco(String agencia, String conta, String titular, double saldo, double chequeEspecial) {
+    public ContaBanco(String agencia, String conta, String titular, double saldo, double chequeEspecial, String chavePIX) {
         this.agencia = agencia;
         this.conta = conta;
         this.titular = titular;
         this.saldo = saldo;
         this.chequeEspecial = chequeEspecial;
+        this.chavePIX = chavePIX;
     }
 
     public String getAgencia() {
@@ -75,6 +71,15 @@ public class ContaBanco {
     public void setChequeEspecial(double chequeEspecial) {
         this.chequeEspecial = chequeEspecial;
     }
+
+    public String getChavePIX() {
+        return chavePIX;
+    }
+
+    public void setChavePIX(String chavePIX) {
+        this.chavePIX = chavePIX;
+    }
+    
     
     
     
@@ -104,6 +109,16 @@ public class ContaBanco {
         }
     }
     
+    public void transferenciaPIX (  double valorTransferenciaPIX, ContaBanco contaRecebimento){
+            if (this.saldo + this.chequeEspecial>=valorTransferenciaPIX){
+            this.saldo-=valorTransferenciaPIX;
+            contaRecebimento.saldo += valorTransferenciaPIX;
+            System.out.println("PIX efetuado com sucesso");
+        }else {
+            System.out.println("Saldo insuficiente, PIX não efetuado");
+        }
+    }
+    
     
     //  public void transferir ( ContaBanco contaRecebimento, double valorTransferencia){
     // if (saque (valorTransferencia)== True){
@@ -113,7 +128,7 @@ public class ContaBanco {
 
     @Override
     public String toString() {
-        return ( "-------------------------\n"+ "Agencia: " + agencia + "\n" +"Conta: " + conta + "\n" + "Títular: " + titular + "\n" + "Saldo:" + saldo );
+        return "-----------"+"\n" +"Agencia: " + agencia + "\n" + "Conta: " +  conta+ "\n" + "Saldo: " + saldo;
             
     }
 
