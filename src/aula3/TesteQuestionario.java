@@ -32,7 +32,7 @@ public class TesteQuestionario {
        
        
         Questionario questao3 = new Questionario();
-       questao3.setPergunta("Qual o maior planeta com o tamanho mais parecido com o tamanho da Terra?");
+       questao3.setPergunta("Qual o  planeta com o tamanho mais parecido com o tamanho da Terra?");
        questao3.setRespostaA("Júpiter");
        questao3.setRespostaB("Mercúrio");
        questao3.setRespostaC("Vênus");
