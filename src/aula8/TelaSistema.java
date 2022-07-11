@@ -5,6 +5,9 @@
 package aula8;
 
 import Ferramentas.Globais;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 /**
  *
@@ -34,6 +37,7 @@ public class TelaSistema extends javax.swing.JFrame {
         btnClear = new javax.swing.JButton();
         txtCripto = new javax.swing.JLabel();
         lblCripto = new javax.swing.JLabel();
+        lblCopy = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -53,27 +57,47 @@ public class TelaSistema extends javax.swing.JFrame {
             }
         });
 
+        lblCripto.setText("texto criptografado");
+
+        lblCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/copy.png"))); // NOI18N
+        lblCopy.addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener() {
+            public void ancestorMoved(java.awt.event.HierarchyEvent evt) {
+            }
+            public void ancestorResized(java.awt.event.HierarchyEvent evt) {
+                lblCopyAncestorResized(evt);
+            }
+        });
+        lblCopy.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCopyMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(75, 75, 75)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnGerar)
+                            .addComponent(lblCripto, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClear)
+                        .addContainerGap(159, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblCopy, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnGerar)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnClear))
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtPalavra))
-                            .addComponent(txtCripto, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(lblCripto, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(71, Short.MAX_VALUE))
+                                    .addGap(60, 60, 60)
+                                    .addComponent(txtCripto, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtPalavra))))
+                        .addContainerGap(66, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,11 +110,16 @@ public class TelaSistema extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGerar)
                     .addComponent(btnClear))
-                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(lblCripto))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(lblCopy, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(31, 31, 31)
                 .addComponent(txtCripto)
-                .addGap(18, 18, 18)
-                .addComponent(lblCripto)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         pack();
@@ -99,13 +128,27 @@ public class TelaSistema extends javax.swing.JFrame {
 
     private void btnGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarActionPerformed
         String codigo = Globais.gerarMD5(txtPalavra.getText());
+        lblCopy.setText(codigo);
         lblCripto.setText(codigo);
     }//GEN-LAST:event_btnGerarActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
        txtPalavra.setText("");
-       lblCripto.setText("");
+       lblCripto.setText("Texto criptografado");
+       lblCopy.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void lblCopyAncestorResized(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_lblCopyAncestorResized
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblCopyAncestorResized
+
+    private void lblCopyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCopyMouseClicked
+        StringSelection stringSelection= new StringSelection(lblCopy.getText());
+        Clipboard objClipbord = Toolkit.getDefaultToolkit().getSystemClipboard();
+        objClipbord.setContents(stringSelection, null);
+        
+        lblCopy.setText("Copiado!");
+    }//GEN-LAST:event_lblCopyMouseClicked
 
     /**
      * @param args the command line arguments
@@ -146,6 +189,7 @@ public class TelaSistema extends javax.swing.JFrame {
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnGerar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblCopy;
     private javax.swing.JLabel lblCripto;
     private javax.swing.JLabel txtCripto;
     private javax.swing.JTextField txtPalavra;

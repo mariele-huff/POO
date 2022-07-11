@@ -15,9 +15,9 @@ public class TesteContas {
 
     public static void main(String[] args) {
         ContaBanco[] objconta = new ContaBanco[3];
-        ContaBanco pessoa1 = new ContaBanco("1111", "222", "A", 1000, 300, "12345678");
-        ContaBanco pessoa2 = new ContaBanco("1112", "223", "B", 700, 300, "12345679");
-        ContaBanco pessoa3 = new ContaBanco("1113", "224", "C", 700, 300, "12345677");
+        ContaBanco pessoa1 = new ContaBanco("1111", "222", "A", 1000, 300, "12345678", "");
+        ContaBanco pessoa2 = new ContaBanco("1112", "223", "B", 700, 300, "12345679", "");
+        ContaBanco pessoa3 = new ContaBanco("1113", "224", "C", 700, 300, "12345677", "");
 
         objconta[0] = pessoa1;
         objconta[1] = pessoa2;

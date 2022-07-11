@@ -15,6 +15,7 @@ public class ContaBanco {
     private double saldo;
     private double chequeEspecial;
     private String chavePIX;
+    private String senha;
    
     public ContaBanco(){
         
@@ -23,14 +24,19 @@ public class ContaBanco {
     
 
   
-    public ContaBanco(String agencia, String conta, String titular, double saldo, double chequeEspecial, String chavePIX) {
+    public ContaBanco(String agencia, String conta, String titular, double saldo, double chequeEspecial, String chavePIX,String senha) {
         this.agencia = agencia;
         this.conta = conta;
         this.titular = titular;
         this.saldo = saldo;
         this.chequeEspecial = chequeEspecial;
         this.chavePIX = chavePIX;
+        this.senha = senha;
     }
+
+    
+
+    
 
     public String getAgencia() {
         return agencia;
@@ -78,6 +84,14 @@ public class ContaBanco {
 
     public void setChavePIX(String chavePIX) {
         this.chavePIX = chavePIX;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
     
     
@@ -128,8 +142,7 @@ public class ContaBanco {
 
     @Override
     public String toString() {
-        return "-----------"+"\n" +"Agencia: " + agencia + "\n" + "Conta: " +  conta+ "\n" + "Saldo: " + saldo;
-            
+        return titular;
     }
 
     

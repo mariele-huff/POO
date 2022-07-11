@@ -2,49 +2,72 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package aula8;
+package aula10;
 
+import aula8.*;
 import Ferramentas.Arquivo;
 import Ferramentas.Globais;
+import Modelos.ContaBanco;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /**
  *
  * @author mari
  */
-public class TelaLogin extends javax.swing.JFrame {
+public class TelaLoginBanco extends javax.swing.JFrame {
     //Usuario [] vetUsuario = new Usuario[1];
 
     /**
      * Creates new form TelaLogin
      */
-    ArrayList<Usuario> arreyUsuario = new ArrayList<>();
-    Usuario objUsuario;
+    ArrayList<ContaBanco> arreyContaBanco = new ArrayList<>();
+    ContaBanco objConta;
     Arquivo objArquivo;
-    Usuario [] vetUsuario = new Usuario[2];
+    ContaBanco[] vetContas = new ContaBanco[3];
 
-    public TelaLogin() {
+    public TelaLoginBanco() {
         initComponents();
 
-        objArquivo = new Arquivo("usuarios.txt");
-        String linha;
-        String vetor[];
+        try {
+            objArquivo = new Arquivo("contas.txt");
+            String linha;
+            String vetor[];
+            String agencia;
+            String conta;
+            String titular;
+            double saldo;
+            double chequeEspecial;
+            String chavePIX;
+            String senha;
 
-        if (objArquivo.abrirLeitura()) {
-            do {
-                linha = objArquivo.lerLinha();
-                if (linha != null) {
-                    vetor = linha.split(";");
+            if (objArquivo.abrirLeitura()) {
+                do {
+                    linha = objArquivo.lerLinha();
+                    if (linha != null && !linha.equals("")) {
+                        vetor = linha.split(";");
 
-                    objUsuario = new Usuario(vetor[0], vetor[1]);
-                    arreyUsuario.add(objUsuario);
-                }
-            } while (linha != null);
-            objArquivo.fecharArquivo();
-        } else {
-            Globais.exibirMensagem("O arquivo não pode ser carregado!");
+                        agencia = vetor[0];
+                        conta = vetor[1];
+                        titular = vetor[2];
+                        saldo = Double.parseDouble(vetor[3]);
+                        chequeEspecial = Double.parseDouble(vetor[4]);
+                        chavePIX = vetor[5];
+                        senha = vetor[6];
+
+                        objConta = new ContaBanco(agencia, conta, titular, saldo, chequeEspecial, chavePIX, senha);
+                        arreyContaBanco.add(objConta);
+                    }
+                } while (linha != null);
+                objArquivo.fecharArquivo();
+            } else {
+                Globais.exibirMensagem("O arquivo não pode ser carregado!");
+            }
+        } catch (NumberFormatException ex) {
+            System.out.println("Erro de conversão: " + ex.getMessage());
+        } catch (Exception ex) {
+            System.out.println("Erro: " + ex.getMessage());
         }
-
     }
 
     /**
@@ -57,19 +80,19 @@ public class TelaLogin extends javax.swing.JFrame {
     private void initComponents() {
 
         bntEntrar = new javax.swing.JButton();
-        txtNome = new javax.swing.JTextField();
-        txtSenha = new javax.swing.JTextField();
+        txtConta = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        txtSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         bntEntrar.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         bntEntrar.setText("Entrar");
-        bntEntrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bntEntrarActionPerformed(evt);
+        bntEntrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                bntEntrarKeyPressed(evt);
             }
         });
 
@@ -77,10 +100,16 @@ public class TelaLogin extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icon.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jLabel2.setText("Usuário");
+        jLabel2.setText("Conta");
 
         jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         jLabel3.setText("Senha");
+
+        txtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSenhaKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,10 +121,11 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addGap(95, 95, 95)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bntEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtConta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(84, 84, 84)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -109,7 +139,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -123,44 +153,50 @@ public class TelaLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bntEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntEntrarActionPerformed
-        funcaoLogin();
-            
-        
-        
-        
-    }//GEN-LAST:event_bntEntrarActionPerformed
+    private void bntEntrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bntEntrarKeyPressed
+       
+    }//GEN-LAST:event_bntEntrarKeyPressed
 
-    private void funcaoLogin(){
-        String login = txtNome.getText();
+    private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
+         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            funcaoLogin();
+        }
+    }//GEN-LAST:event_txtSenhaKeyPressed
+
+    private void funcaoLogin() {
+        String conta = txtConta.getText();
         String senha = Globais.gerarMD5(txtSenha.getText());
-        
-        boolean existe = validarLogin(login, senha);
-        
-        if(existe){
+
+        boolean existe = validarLogin(conta, senha);
+
+        if (existe) {
+            TelaMenu.objContaBanco=objConta;
+            TelaMenu.arrContas=arreyContaBanco;
             
-            TelaSistema tela = new TelaSistema();
-            tela.setVisible(true); //coloca como visível a TelaSistema
-            dispose(); //fecha a tela atual
-            
-        }else{
+
+            TelaMenu tela = new TelaMenu();
+            tela.setVisible(true);
+            dispose();
+
+        } else {
             Globais.exibirMensagem("Dados inválidos, tente novamente");
         }
     }
-    
-    private boolean validarLogin(String usuario, String senha){
-        
+
+    private boolean validarLogin(String conta, String senha) {
+
         boolean retorno = false;
-        
-        for (Usuario objUser : arreyUsuario) {
-            if(objUser.getUsuario().equals(usuario) &&
-                objUser.getSenha().equals(senha)){
+
+        for (ContaBanco objContas : arreyContaBanco) {
+            if (objContas.getConta().equals(conta)
+                    && objContas.getSenha().equals(senha)) {
+                objConta = objContas;
                 retorno = true;
             }
         }
         return retorno;
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -178,20 +214,21 @@ public class TelaLogin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLoginBanco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLoginBanco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLoginBanco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLoginBanco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaLogin().setVisible(true);
+                new TelaLoginBanco().setVisible(true);
             }
         });
     }
@@ -201,7 +238,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtSenha;
+    private javax.swing.JTextField txtConta;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }
