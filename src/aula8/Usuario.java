@@ -9,12 +9,16 @@ package aula8;
  * @author mari
  */
 public class Usuario {
+   private int id;
    private String usuario;
    private String senha;
+   private String email;
 
-    public Usuario(String usuario, String senha) {
+    public Usuario(int id, String usuario, String senha, String email) {
         this.usuario = usuario;
         this.senha = senha;
+        this.id=id;
+        this.email=email;
     }
 public Usuario(){
     
@@ -33,6 +37,22 @@ public Usuario(){
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
    
    

@@ -151,7 +151,7 @@ public class TelaQuestionario extends javax.swing.JFrame {
        
         if(altB && vetorquestao[cont].getRespostaCorreta() == 'b'){
                 Globais.exibirMensagem("Acertou");
-                acertos++;
+              
             }else if(altA && vetorquestao[cont].getRespostaCorreta() == 'a'){
                 Globais.exibirMensagem("Acertou");
                 acertos++;

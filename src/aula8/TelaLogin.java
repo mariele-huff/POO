@@ -36,7 +36,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 if (linha != null) {
                     vetor = linha.split(";");
 
-                    objUsuario = new Usuario(vetor[0], vetor[1]);
+                   // objUsuario = new Usuario(vetor[0], vetor[1]);
                     arreyUsuario.add(objUsuario);
                 }
             } while (linha != null);
